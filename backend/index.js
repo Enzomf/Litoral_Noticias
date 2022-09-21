@@ -16,7 +16,6 @@ const Commentary_responseModel = require("./models/Commentary_response");
 const User_roles = require("./models/User_role");
 const Role = require("./models/Roles");
 
-
 // Rotas
 const AuthRoute = require("./routes/auth_route")
 

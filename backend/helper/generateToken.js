@@ -9,7 +9,7 @@ function generateToken(res, id, role) {
     const token = jwt.sign(
       { userId: id, role: role },
       process.env.TOKEN_SECRET,
-      { expiresIn: 3600000 }
+      { expiresIn: '24h' }
     );
     return token;
   } catch (error) {
