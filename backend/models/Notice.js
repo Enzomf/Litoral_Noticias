@@ -1,15 +1,19 @@
-const User = require("./User");
-const { DataTypes } = require("sequelize");
 const sequelize = require("../db/conn");
+const { DataTypes } = require("sequelize");
+const User = require("./User");
 
 const Notice = sequelize.define(
   "notices",
   {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     content: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    title: {
+    author: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -17,8 +21,7 @@ const Notice = sequelize.define(
   { timestamps: true }
 );
 
-User.hasMany(Notice)
-Notice.belongsTo(User)
+Notice.belongsTo(User);
+User.hasMany(Notice);
 
-
-module.exports = Notice
+module.exports = Notice;
