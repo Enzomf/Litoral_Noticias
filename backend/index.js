@@ -18,10 +18,10 @@ const Role = require("./models/Roles");
 
 // Rotas
 const AuthRoute = require("./routes/auth_route")
-
+const UserRoute = require("./routes/user_route")
 
 app.use("/auth", AuthRoute)
-
+app.use("/user", UserRoute)
 
 
 conn.sync().then(()=>{
