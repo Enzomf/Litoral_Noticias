@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const User_role = require("../models/User_role");
 
 const generateToken = require("../helper/generateToken");
+const getUserByToken = require("../helper/userByToken");
+const { use } = require("../routes/user_route");
 
 class AuthController {
   async register(req, res) {
@@ -101,6 +103,37 @@ class AuthController {
     const token = generateToken(res, checkUser.id, checkUser.user_role.roleId)
 
     res.json({ message: "Usuário autenticado!", token: token});
+  }
+
+  async changePassword(req, res){
+
+    const { password , newPassword , confNewPassword} = req.body
+
+    const user = await getUserByToken(req, res, false)
+
+    if(!password){
+      return res.status(422).json({message:"necessario enviar a senha atual"})
+    }
+    if(!newPassword){
+      return res.status(422).json({message:"necessario enviar a nova senha"})
+    }
+    if(!confNewPassword){
+      return res.status(422).json({message:"necessario enviar a confirmação da nova senha"})
+    }
+
+    if(!bcrypt.compareSync(password, user.password)){
+      return res.status(401).json({message:"Senha errada, tente novamente"})
+    }
+
+    if(newPassword !== confNewPassword){
+      return res.status(422).json({message:"Senhas e confirmação de senha não batem!"})
+    }
+    
+    const hashedPassword = bcrypt.hashSync(newPassword, 10)
+
+    await User.update({password:hashedPassword}, {where:{id:user.id}});
+
+    res.status(200).json({message:"Senha atualizada com sucesso"})
   }
 }
 
