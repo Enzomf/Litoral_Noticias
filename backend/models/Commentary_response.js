@@ -2,6 +2,7 @@ const sequelize = require("../db/conn");
 const { DataTypes } = require("sequelize");
 const Commentary = require("./Commentary");
 const User = require("./User");
+const Notice = require("./Notice");
 
 const Commentary_response = sequelize.define(
   "commentary_response",
@@ -20,6 +21,9 @@ const Commentary_response = sequelize.define(
 
 Commentary_response.belongsTo(Commentary);
 Commentary.hasMany(Commentary_response);
+
+Notice.hasMany(Commentary_response)
+Commentary_response.belongsTo(Notice)
 
 Commentary_response.belongsTo(User);
 User.hasMany(Commentary_response);

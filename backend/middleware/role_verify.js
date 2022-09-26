@@ -1,26 +1,19 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User_role");
 
-const role_verify = (roles) =>{
+const role_verify = (roles) => {
+  return (req, res, next) => {
+    let token = req.headers.authorization;
+    token = token.split(" ")[1];
 
-    return((req, res, next)=>{
+    const { role } = jwt.decode(token);
 
-        
-        let token = req.headers.authorization;
-        token = token.split(" ")[1];
+    if (roles.includes(role.toString())) {
+      return next();
+    }
 
-        const { role } =  jwt.decode(token)
-        console.log(role)
+    return res.status(403).json({ message: "Acesso negado" });
+  };
+};
 
-
-        if(roles.includes(role.toString())){
-           return next()
-        }
-
-         return res.status(403).json({message:"Acesso negado"})
-
-    } )
-}
-  
-
-module.exports = role_verify
+module.exports = role_verify;

@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const userByToken = require("../helper/userByToken");
+const User = require("../models/User");
 
 async function auth_verify(req, res, next) {
   let token = req.headers.authorization;
@@ -9,6 +11,7 @@ async function auth_verify(req, res, next) {
       .json({ message: "É necessario fazer login para acessar essa rota" });
     return;
   }
+ 
   try {
     token = token.split(" ")[1];
     jwt.verify(token, process.env.TOKEN_SECRET);
