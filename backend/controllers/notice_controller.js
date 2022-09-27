@@ -3,6 +3,7 @@ const Notice = require("../models/Notice");
 const NoticeImages = require("../models/NoticeImages");
 const Commentary = require("../models/Commentary");
 const Commentary_response = require("../models/Commentary_response");
+const fs = require("fs");
 
 class NoticeController {
   async add_notice(req, res) {
@@ -80,6 +81,162 @@ class NoticeController {
     }
 
     res.status(200).json({ notice });
+  }
+
+  async updateNotice(req, res) {
+    const { title, content } = req.body;
+    const id = req.params.id;
+
+    if (!title && !content) {
+      res.status(422).json({ message: "Insira algum dado pra atualizar!" });
+      return;
+    }
+
+    // pegar o id do escritor da notícia
+    const { userId } = await Notice.findOne({ where: { id: id }, raw: true });
+    // pegar o id do usuário logado
+    const actualUserId = await getUserByToken(req, res, true);
+
+    console.log(userId, actualUserId);
+
+    if (userId != actualUserId) {
+      res
+        .status(401)
+        .json({ message: "Só é possivel atualizar suas notícias!" });
+      return;
+    }
+
+    try {
+      await Notice.update(
+        { title: title, content: content },
+        { where: { id: id } }
+      );
+
+      res.status(200).json({ message: "Noticia atualizada com sucesso!" });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: "Ocorreu algum erro, tente novamente mais tarde" });
+    }
+  }
+
+  async allNotices(req, res) {
+    try {
+      const notices = await Notice.findAll({ include: [NoticeImages] });
+
+      res.status(200).json({ notices });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ message: "Ocorreu algum erro, tente novamente mais tarde" });
+    }
+  }
+
+  async deleteNotice(req, res) {
+    const id = req.params.id;
+
+    const notice = await Notice.findOne({ where: { id: id } });
+
+    // verifica se a notícia existe
+    if (!notice) {
+      res.status(404).json({ message: "Noticia não encontrada" });
+      return;
+    }
+
+    // pegar o id do usuário logado
+    const actualUserId = await getUserByToken(req, res, true);
+
+    // verifica se a noticia pertence ao usuário
+    if (notice.userId != actualUserId) {
+      res
+        .status(401)
+        .json({ message: "Só é possivel remover suas próprias noticias!" });
+      return;
+    }
+
+    // pega o nome da imagem da noticia
+    let imageNames = await NoticeImages.findOne({ where: { noticeId: id } });
+    imageNames = imageNames.dataValues.image_name.split("/")[5];
+
+    try {
+      // deleta a noticia e as imagens da noticia
+      fs.unlinkSync(`upload/noticeImages/${imageNames}`);
+      await NoticeImages.destroy({ where: { noticeId: id } });
+      await Notice.destroy({ where: { id: id } });
+
+      res.status(200).json({ message: "Noticia deletada com sucesso!" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Ocorreu algum erro, tente novamente" });
+    }
+  }
+
+  async addComment(req, res) {
+    const noticeID = req.params.id;
+
+    if (!(await Notice.findOne({ where: { id: noticeID } }))) {
+      res.status(404).json({ message: "Noticia não encontrada" });
+      return;
+    }
+
+    const { comment } = req.body;
+
+    const { name, id } = await getUserByToken(req, res);
+
+    if (!comment) {
+      res.status(422).json({ message: "Escreva um comentário primeiro" });
+      return;
+    }
+
+    try {
+      await Commentary.create({
+        noticeId: noticeID,
+        writter: name,
+        comment: comment,
+        userId: id,
+      });
+
+      res.status(200).json({ message: "Comentario adicionado com sucesso!" });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ message: "Ocorreu algum erro, tente novamente mais tarde" });
+    }
+  }
+
+  async responseComment(req, res) {
+    const commentId = req.params.id;
+
+    
+    const { content } = req.body;
+    if(!content){
+      res.status(422).json({message:"comente alguma coisa para continuar"})
+      return
+    }
+    const comment = await Commentary.findOne({ where: { id: commentId } });
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comentario não encontrado" });
+    }
+
+    const { name, id } = await getUserByToken(req, res);
+
+    try {
+      await Commentary_response.create({
+        author: name,
+        content: content,
+        noticeId: comment.noticeId,
+        commentaryId: comment.id,
+        userId: id
+      });
+
+      res.status(200).json({message:"Commentario respondido com sucesso!"})
+    } catch (err) {
+      console.log(err)
+      res.status(500).json({message:"Ocorreu algum erro, tente novamente mais tarde!"})
+    }
   }
 }
 

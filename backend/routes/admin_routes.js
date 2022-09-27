@@ -1,4 +1,5 @@
 const route = require("express").Router();
+
 const verify_role = require("../middleware/role_verify");
 const verify_auth = require("../middleware/auth_verify");
 const AdminController = require("../controllers/admin_controller");
@@ -15,7 +16,13 @@ route.patch(
   verify_auth,
   verify_role([process.env.ROLE_ADMIN]),
   AdminController.promove_to_admin
-);
+  );
+  route.delete(
+    "/delete/:id",
+    verify_auth,
+    verify_role([process.env.ROLE_ADMIN]),
+    AdminController.deleteNotice
+  );
 
 route.delete(
   "/ban/:id",
