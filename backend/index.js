@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 const conn = require("./db/conn");
 
-app.use(cors({ origin: `http://localhost:${process.env.PORT}/` }));
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

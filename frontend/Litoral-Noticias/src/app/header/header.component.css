@@ -1,0 +1,79 @@
+header {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  padding-top: 38px;
+  background-image: url("../../assets/header-background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-effect {
+  position: absolute;
+  width: 100%;
+  height: 221px;
+  left: 0px;
+  top: 0px;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(57, 131, 120, 0) -40.84%,
+    rgba(30, 96, 86, 0.74) 18.13%
+  );
+}
+
+header nav {
+  width: 980px;
+  height: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+header nav ul {
+  list-style: none;
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 30px
+}
+
+header nav img {
+  width: 273px;
+  height: 104px;
+  position: relative;
+  z-index: 1000;
+}
+
+header nav ul a {
+  font-weight: 500;
+  font-size: 16;
+  line-height: 14px;
+  text-align: center;
+  font-family: "Lato";
+  color: #ffffff;
+  transition: .4s;
+}
+
+header nav ul a:hover {
+   opacity: 0.5;
+  }
+
+header button {
+    padding: 0.5em 2em;
+    background-color: transparent;
+    border: solid 1px #ffffff;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+header button:hover{
+    background-color: #fff;
+    color: #1E6056;
+    border: #fff 1px solid;
+    transition: .4s ease-in-out;
+}

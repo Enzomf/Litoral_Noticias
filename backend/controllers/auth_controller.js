@@ -66,7 +66,7 @@ class AuthController {
 
       res
         .status(200)
-        .json({ message: "usuário criado com sucesso!", token: token });
+        .json({ token: token });
       return;
     } catch (error) {
       res.status(400).json({ erro: error });
