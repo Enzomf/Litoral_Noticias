@@ -5,19 +5,19 @@
 
     <section>
             <h1>Login</h1>
-        <form>
+        <form #loginForm="ngForm" (ngSubmit)="doLogin(loginForm)">
             <div class="form-control">
                 <label for="email">E-mail</label>
-                <input [(ngModel)]="requestLogin.email" type="email" name="email" id="email" placeholder="Digite seu email" required>
+                <input  ngModel type="email" name="email" id="email" placeholder="Digite seu email" required>
             </div>
             <div class="form-control">
                 <label for="password">Senha:</label>
-                <input [(ngModel)]="requestLogin.password" type="password" name="password" id="password" placeholder="Digite sua senha" required>
+                <input ngModel type="password" name="password" id="password" placeholder="Digite sua senha" required>
             </div>
 
             <div class="info">
-                <p>Não possue conta? <a href="/registrar"> clique aqui</a></p>
-                <button type="button" (click)="doLogin()">Entrar</button>
+                <p>Não possue conta? <a routerLink="/register"> clique aqui</a></p>
+                <button type="submit">Entrar</button>
             </div>
         </form>
     </section>

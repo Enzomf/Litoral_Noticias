@@ -1,13 +1,24 @@
 <header>
     <nav>
-        <a href="/home"> <img src="../../assets/logo-no-background.svg" alt="Litoral Noticias Logo"></a>
-        <ul>
+        <a routerLink="/home"> <img class="logo" src="../../assets/logo-no-background.svg" alt="Litoral Noticias Logo"></a>
+        <ul *ngIf="!isLogged()" class="default">
             <li>
-                <a href="/register">CADASTRAR</a>
+                <a routerLink="/register">CADASTRAR</a>
             </li>
             <li>
-                <button (click)="loginRedirect()"> Entrar </button>
+                <button routerLink="/login"> Entrar </button>
             </li>
+        </ul>
+
+        <ul class="writter-header"*ngIf="checkRole() && checkRole() == roles.ROLE_READER.toString()">
+            <li (click)="logout()"> <a routerLink="/login">Sair</a></li>
+            <li class="profile"> <img routerLink="/home" src="{{userData.profileImage}}"/></li>
+        </ul>
+
+        <ul class="writter-header"*ngIf="checkRole() && checkRole() == roles.ROLE_WRITTER.toString() && userData">
+            <li><a routerLink="/writterDashboard">Adicionar Noticias</a></li>
+            <li (click)="logout()"> <a routerLink="/login">Sair</a></li>
+            <li class="profile"> <img routerLink="/home" src="{{userData.profileImage}}"/></li>
         </ul>
     </nav>
 

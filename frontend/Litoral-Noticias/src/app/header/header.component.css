@@ -42,7 +42,7 @@ header nav ul {
   gap: 30px
 }
 
-header nav img {
+header nav img.logo {
   width: 273px;
   height: 104px;
   position: relative;
@@ -76,4 +76,12 @@ header button:hover{
     color: #1E6056;
     border: #fff 1px solid;
     transition: .4s ease-in-out;
+}
+
+
+.profile img{
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  cursor: pointer;
 }

@@ -1,19 +1,25 @@
-/* MessagesComponent's private CSS styles */
 h2 {
-    color: #A80000;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: lighter;
+  margin-bottom: 0.5em;
+}
+
+.container {
+  padding: 1.5em;
+  border: solid 1px black;
+  width: 250px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  z-index: 99999;
+  top: 20px;
+  border-radius: 5px;
+  animation: message ease 0.5s;
+}
+
+@keyframes message {
+  from{
+    top: 0;
+  }to{
+    top: 20px
   }
-  
-  .clear {
-    color: #333;
-    background-color: #eee;
-    margin-bottom: 12px;
-    padding: 1rem;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  .clear:hover {
-    color: white;
-    background-color: #42545C;
-  }
+}

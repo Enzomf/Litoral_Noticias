@@ -5,27 +5,27 @@
 
     <section>
             <h1>Registrar</h1>
-        <form>
+        <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
             <div class="form-control">
                 <label for="name">Nome:</label>
-                <input type="text" name="name" id="name" placeholder="Digite seu nome" required>
+                <input ngModel type="text" name="name" id="name" placeholder="Digite seu nome" required>
             </div>
             <div class="form-control">
                 <label for="email">E-mail:</label>
-                <input type="email" name="email" id="email" placeholder="Digite seu email" required>
+                <input  ngModel type="email" name="email" id="email" placeholder="Digite seu email" required>
             </div>
             <div class="form-control">
                 <label for="password">Senha:</label>
-                <input type="password" name="password" id="password" placeholder="Digite sua senha" required>
+                <input  ngModel type="password" name="password" id="password" placeholder="Digite sua senha" required>
             </div>
             <div class="form-control">
-                <label for="confPassword">Senha:</label>
-                <input type="password" name="confPassword" id="confPassword" placeholder="Confirme sua senha" required>
+                <label for="confirmatePassword">Confirmação de senha:</label>
+                <input ngModel type="password" name="confirmatePassword" id="confirmatePassword" placeholder="Confirme sua senha" required>
             </div>
 
             <div class="info">
-                <p>Não possue conta? <a href="/registrar"> clique aqui</a></p>
-                <button type="button">Cadastrar</button>
+                <p>Possue conta? <a routerLink="/login"> clique aqui</a></p>
+                <button type="submit">Cadastrar</button>
             </div>
         </form>
     </section>
