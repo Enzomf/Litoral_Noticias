@@ -1,1 +1,56 @@
-<p>home works!</p>
+<div class="container" *ngIf="notices">
+  <div class="right-area">
+    <section class="card destaque">
+      <h1>Destaque</h1>
+
+      <h2>{{ destaque.title }}</h2>
+
+      <div class="content">
+        <img src="{{ destaque.notice_images[0].image_name }}" />
+        <div>
+          <p>
+            {{ destaque.content }}
+          </p>
+          <a class="readmore" routerLink="/notice/{{ destaque.id }}"
+            >LER MAIS</a
+          >
+        </div>
+      </div>
+    </section>
+    <section class="card ad">
+      <h2>Anúncio</h2>
+      <div>
+        <div class="content">
+          <img src="{{ destaque.notice_images[0].image_name }}" />
+          <div>
+            <h2>{{ destaque.title }}</h2>
+            <a class="readmore" routerLink="/notice/{{ destaque.id }}"
+              >LER MAIS</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <aside>
+    <section class="aside-card">
+      <h3 class="aside-title">Últimas Notícias</h3>
+      <hr/>
+    </section>
+    <nav class="aside-card">
+      <h3 class="aside-title">Categorias</h3>
+     <hr/>
+      <ul>
+        <li routerLink="/esportes">Esporte</li>
+        <li routerLink="/saude">Saúde</li>
+        <li routerLink="/educacao">Educação</li>
+        <li routerLink="/entreterimento">Entreterimento</li>
+        <li routerLink="/politica">Política</li>
+      </ul>
+    </nav>
+  </aside>
+</div>
+
+<div class="container" *ngIf="!notices">
+  <h1>Nenhuma notícia para exibir</h1>
+</div>

@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>Minhas Notícias</h1>
+
+  <div class="noticeList">
+    <div *ngFor="let notice of userNotices" class="notice-card">
+      <span class="notice-title">{{ notice.title }}</span>
+      <div class="actions">
+        <fa-icon
+          [icon]="editIcon"
+          class="editIcon icon"
+          [ngStyle]="{ color: 'blue' }"
+        >
+        </fa-icon>
+        <fa-icon
+          (click)="handleDelete(notice.id)"
+          [icon]="deleteIcon"
+          class="deleteIcon icon"
+          [ngStyle]="{ color: 'red' }"
+        >
+        </fa-icon>
+      </div>
+    </div>
+  </div>
+</div>

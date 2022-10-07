@@ -10,13 +10,14 @@
             </li>
         </ul>
 
-        <ul class="writter-header"*ngIf="checkRole() && checkRole() == roles.ROLE_READER.toString()">
+        <ul  class="writter-header"*ngIf="checkRole() && checkRole() == roles.ROLE_READER.toString()">
             <li (click)="logout()"> <a routerLink="/login">Sair</a></li>
             <li class="profile"> <img routerLink="/home" src="{{userData.profileImage}}"/></li>
         </ul>
 
         <ul class="writter-header"*ngIf="checkRole() && checkRole() == roles.ROLE_WRITTER.toString() && userData">
-            <li><a routerLink="/writterDashboard">Adicionar Noticias</a></li>
+            <li><a routerLink="/escritor">Adicionar Noticias</a></li>
+            <li><a routerLink="/escritor/minhas-noticias">Minhas Noticias</a></li>
             <li (click)="logout()"> <a routerLink="/login">Sair</a></li>
             <li class="profile"> <img routerLink="/home" src="{{userData.profileImage}}"/></li>
         </ul>

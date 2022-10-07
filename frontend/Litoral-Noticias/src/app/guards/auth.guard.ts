@@ -19,11 +19,12 @@ export class AuthGuard implements CanActivate {
 
         if(role){
           const math = this.authservice.roleMatch(role);
-          console.log(role)
+
           if(math){
             return true
           }else{
             this.router.navigate(["/login"])
+            console.log("ola")
             return false
           }
         }

@@ -26,7 +26,6 @@ export class HeaderComponent implements OnInit {
       this.userService.getUserData().subscribe((response) => {
         this.userData = response.message;
       });
-
   }
 
   loginRedirect() {

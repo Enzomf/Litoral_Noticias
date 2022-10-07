@@ -2,6 +2,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http"
 import{ FormsModule} from "@angular/forms"
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Router 
 
@@ -16,6 +17,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { WritterDashboardComponent } from './components/pages/writter-dashboard/writter-dashboard.component';
 import { HomeComponent } from './components/pages/home/home.component';
 import { AuthInterceptor } from './Interceptors/auth.interceptor';
+import { WritterNoticesComponent } from './writter-notices/writter-notices.component';
 
 
 @NgModule({
@@ -27,13 +29,14 @@ import { AuthInterceptor } from './Interceptors/auth.interceptor';
     RegisterComponent,
     MessagesComponent,
     WritterDashboardComponent,
-    HomeComponent
+    HomeComponent,
+    WritterNoticesComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule, FontAwesomeModule
   
   ],
   providers: [[{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}]],

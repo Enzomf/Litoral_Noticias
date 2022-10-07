@@ -35,10 +35,15 @@ export class AuthService {
   public roleMatch(allowedRoles:Array<any>){
     let match = false
     const role = this.getRole()
-    if(allowedRoles.includes(role)){
-      match = true;
+    
+    allowedRoles.forEach(roles=>{
+      if(roles == role){
+        match = true;
+        return match
+      }
       return match
-    }
+    })
+
     return match
   }
 

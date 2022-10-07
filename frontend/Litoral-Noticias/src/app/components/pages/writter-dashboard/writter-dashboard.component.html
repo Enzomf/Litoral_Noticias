@@ -1,1 +1,30 @@
-<p>writter-dashboard works!</p>
+<div class="container">
+
+    <form #loginForm="ngForm" (ngSubmit)="addNotice(loginForm)">
+        <div class="form-control">
+            <label for="title">Titulo: </label>
+            <input ngModel type="text" id="title" name="title">
+        </div>
+        <div class="form-control">
+            <label for="content">Conteudo: </label>
+            <textarea ngModel type="text" id="content" name="content"></textarea>
+        </div>
+        <div class="form-control">
+            <label for="content">Imagem: </label>
+            <input ngModel (change)="onFileSelected($event)" type="file" id="image" name="image">
+        </div>
+        <div class="form-control">
+            <label for="content">Categoria: </label>
+            <select ngModel name="category">
+                <option value="">Selecione a categoria</option>
+                <option value="educação">Educação</option>
+                <option value="saude">Saúde</option>
+                <option value="politica">Política</option>
+                <option value="entreterimento">Entreterimento</option>
+                <option value="esporte">Esporte</option>
+            </select>
+        </div>
+        <input type="submit">
+    </form>
+
+</div>
