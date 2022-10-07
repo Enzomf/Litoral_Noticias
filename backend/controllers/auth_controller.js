@@ -66,7 +66,7 @@ class AuthController {
 
       res
         .status(200)
-        .json({ token: token });
+        .json({ token: token , role:role.roleId});
       return;
     } catch (error) {
       res.status(400).json({ erro: error });
@@ -102,7 +102,7 @@ class AuthController {
 
     const token = generateToken(res, checkUser.id, checkUser.user_role.roleId)
 
-    res.json({ message: "Usuário autenticado!", token: token});
+    res.json({ message: "Usuário autenticado!", token: token, role: checkUser.user_role.roleId});
   }
 
   async changePassword(req, res){

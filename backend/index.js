@@ -4,6 +4,7 @@ const cors = require("cors");
 const app = express();
 const conn = require("./db/conn");
 
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -27,6 +28,8 @@ app.use("/auth", AuthRoute);
 app.use("/user", UserRoute);
 app.use("/admin", AdminRoute);
 app.use("/notice", NoticeRoute);
+
+
 
 conn
   .sync()

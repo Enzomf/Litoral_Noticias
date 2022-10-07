@@ -12,6 +12,6 @@ const Role = sequelize.define("roles", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-});
+}, {timestamps:false});
 
 module.exports = Role;

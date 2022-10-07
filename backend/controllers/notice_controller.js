@@ -4,12 +4,24 @@ const NoticeImages = require("../models/NoticeImages");
 const Commentary = require("../models/Commentary");
 const Commentary_response = require("../models/Commentary_response");
 const fs = require("fs");
+const User = require("../models/User");
 
 class NoticeController {
+
+  async getLatest(req, res){
+    const latestNews = await Notice.findAll({order: [['createdAt', "DESC"]], limit:3, include:NoticeImages})
+
+    return res.status(200).json(latestNews)
+  }
   async add_notice(req, res) {
     let image_name = "";
 
-    const { title, content } = req.body;
+    console.log(req.file)
+    const { title, content, category, destaque } = req.body;
+    let _destaque = false;
+    if (destaque) {
+      _destaque = true;
+    }
 
     if (!title) {
       res.status(422).json({ message: "O titulo é obrigatório!" });
@@ -20,6 +32,24 @@ class NoticeController {
       return;
     }
 
+
+    
+    if (!category) {
+      res.status(422).json({ message: "A categoria é obrigatória!" });
+      return
+    }
+
+    let allowedCategories = [
+      "esportes",
+      "saude",
+      "educação",
+      "entreterimento",
+      "politica",
+    ];
+    if (!allowedCategories.includes(category.toLowerCase())) {
+      res.status(422).json({ message: "Insira uma categoria válida!" });
+      return;
+    }
     if (req.file) {
       image_name = req.file.filename;
     }
@@ -35,6 +65,8 @@ class NoticeController {
       userId: id,
       content,
       title,
+      category,
+      destaque:_destaque
     };
 
     try {
@@ -133,6 +165,23 @@ class NoticeController {
     }
   }
 
+  async myNotices(req, res){
+    const id =  await getUserByToken(req, res, true)
+
+    const userNotices = await Notice.findAll({where: {
+      userId:id
+    }, order:[['createdAt', "DESC"]], include: NoticeImages})
+  
+  if(!userNotices){
+    res.status(404).json({message:"Você não possui nenhuma notícia!"})
+    return
+  }
+
+  res.status(200).json({userNotices})
+  }
+
+
+
   async deleteNotice(req, res) {
     const id = req.params.id;
 
@@ -157,12 +206,18 @@ class NoticeController {
 
     // pega o nome da imagem da noticia
     let imageNames = await NoticeImages.findOne({ where: { noticeId: id } });
-    imageNames = imageNames.dataValues.image_name.split("/")[5];
+    if(imageNames){
+
+      imageNames = imageNames.dataValues.image_name.split("/")[5];
+    }
 
     try {
       // deleta a noticia e as imagens da noticia
-      fs.unlinkSync(`upload/noticeImages/${imageNames}`);
-      await NoticeImages.destroy({ where: { noticeId: id } });
+      if(imageNames){
+
+        fs.unlinkSync(`upload/noticeImages/${imageNames}`);
+        await NoticeImages.destroy({ where: { noticeId: id } });
+      }
       await Notice.destroy({ where: { id: id } });
 
       res.status(200).json({ message: "Noticia deletada com sucesso!" });
@@ -209,11 +264,10 @@ class NoticeController {
   async responseComment(req, res) {
     const commentId = req.params.id;
 
-    
     const { content } = req.body;
-    if(!content){
-      res.status(422).json({message:"comente alguma coisa para continuar"})
-      return
+    if (!content) {
+      res.status(422).json({ message: "comente alguma coisa para continuar" });
+      return;
     }
     const comment = await Commentary.findOne({ where: { id: commentId } });
 
@@ -229,13 +283,15 @@ class NoticeController {
         content: content,
         noticeId: comment.noticeId,
         commentaryId: comment.id,
-        userId: id
+        userId: id,
       });
 
-      res.status(200).json({message:"Commentario respondido com sucesso!"})
+      res.status(200).json({ message: "Commentario respondido com sucesso!" });
     } catch (err) {
-      console.log(err)
-      res.status(500).json({message:"Ocorreu algum erro, tente novamente mais tarde!"})
+      console.log(err);
+      res
+        .status(500)
+        .json({ message: "Ocorreu algum erro, tente novamente mais tarde!" });
     }
   }
 }

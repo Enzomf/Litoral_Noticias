@@ -17,6 +17,6 @@ async function setAdmin() {
   await User_role.create({userId:user.id, roleId: process.env.ROLE_ADMIN})
 }
 
-// setAdmin()
+setAdmin()
 
 module.exports = setAdmin

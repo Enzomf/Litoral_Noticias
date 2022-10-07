@@ -24,6 +24,8 @@ route.patch(
 );
 
 route.delete("/delete/:id", auth_verify, role_verify([process.env.ROLE_WRITTER]), NoticeController.deleteNotice)
+route.get("/mynotices", auth_verify, role_verify([process.env.ROLE_WRITTER]), NoticeController.myNotices)
+route.get("/latest", NoticeController.getLatest)
 route.get("/", NoticeController.allNotices);
 route.get("/:noticeId", NoticeController.getNotice);
 route.get("/image/:imageName", NoticeController.sendImage);

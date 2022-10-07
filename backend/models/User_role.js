@@ -6,7 +6,7 @@ const Role = require("./Roles")
 
 const User_role = sequelize.define("user_roles", {
     
-},)
+}, {timestamps:false})
 
 User_role.belongsTo(User)
 User.hasOne(User_role)

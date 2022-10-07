@@ -9,7 +9,7 @@ const NoticeImages = sequelize.define("notice_images", {
         type: DataTypes.STRING,
         allowNull: false
     }
-})
+},{timestamps:false})
 
 NoticeImages.belongsTo(Notice)
 Notice.hasMany(NoticeImages)

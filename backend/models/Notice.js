@@ -17,6 +17,15 @@ const Notice = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    category:{
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    destaque:{
+      type:DataTypes.BOOLEAN,
+      allowNull:false,
+      defaultValue:false
+    }
   },
   { timestamps: true }
 );
